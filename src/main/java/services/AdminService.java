@@ -5,6 +5,7 @@
 package services;
 
 import java.util.ArrayList;
+import models.Product;
 import models.User;
 
 /**
@@ -15,13 +16,15 @@ public interface AdminService {
     
     public void showAdminScreen();
     
-    public void addAdmin(User adminUser);
-    
     public ArrayList<User> getAdminUsers();
+    
+    public ArrayList<Product> getProducts();
     
     public boolean isAnAdmin(User adminAcc);
     
-    public void addProduct();
+    public void addProduct(Product product);
+    
+    public void removeProduct(Product product);
     
     public void removeProduct();
     

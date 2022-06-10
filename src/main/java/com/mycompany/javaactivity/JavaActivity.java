@@ -7,6 +7,7 @@ package com.mycompany.javaactivity;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import models.Product;
 import models.User;
 import services.AdminService;
 import services.AdminServiceImpl;
@@ -21,6 +22,7 @@ public class JavaActivity {
     static Scanner console = new Scanner(System.in);
     static int mainChoice =2;
     static int roleChoice =2;
+    static int adminChoice;
     
     public static void mainMenu (){
     
@@ -33,11 +35,14 @@ public class JavaActivity {
         
         System.out.print("What do you want to do? : ");
     }
-
-    
+ 
     public static void main(String[] args) {
         String userName;
         String password;
+        
+        String productName="";
+        int productPrice=0;
+        int productID = 0;
 
         AdminService adminService = new AdminServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
@@ -52,7 +57,6 @@ public class JavaActivity {
                     mainMenu();
                     mainChoice = console.nextInt();
                 }
-                
                 if(mainChoice==1){
                     System.out.println("\n\n***********************");
                     System.out.println("*        LOGIN        *");
@@ -68,9 +72,55 @@ public class JavaActivity {
                     while (roleChoice!=0){
                         if (adminService.isAnAdmin(logInUser)){
                             adminService.showAdminScreen();
-                            roleChoice = console.nextInt();
-                            mainChoice = 2;
-                    }
+                            adminChoice = console.nextInt();
+                            
+                            if(adminChoice==1){
+                                while(adminChoice!=0){
+                                    System.out.println("\n\n***********************");
+                                    System.out.println("*      PRODUCTS       *");
+                                    System.out.println("***********************");
+
+                                    System.out.println("ID \t Name \t Price");
+
+                                    ArrayList<Product> productsAvailable = adminService.getProducts();
+
+                                    if (productsAvailable.isEmpty()){
+                                        System.out.println("  No Products Found.");
+                                    }
+                                    else{ 
+                                        for(Product product: productsAvailable){
+                                            System.out.println(product.getProductID() + "\t" + product.getProductName() + "\t" + product.getProductPrice());
+                                        }
+                                    }
+
+                                    System.out.println("........................");
+                                    System.out.println("1 - Add New Product");
+                                    System.out.println("2 - Remove Product\n");
+                                    System.out.print("What do you want to do? : ");
+
+                                    adminChoice = console.nextInt();
+                                    
+                                    if (adminChoice==1){
+                                        System.out.println("\n\n***********************");
+                                        System.out.println("*     ADD PRODUCT     *");
+                                        System.out.println("***********************");
+                                        
+                                       
+                                        System.out.print("Name: ");
+                                        productName = console.next();
+                                        
+                                        System.out.print("Product Price: ");
+                                        productPrice = console.nextInt();
+                                        
+                                        productID++;
+                                        
+                                        Product newProduct = new Product(productName, productID, productPrice);
+                                        productsAvailable.add(newProduct);
+                                        
+                                        
+                                    }
+                                }
+                            }
                         else if (customerService.isACustomer(logInUser)){
                             customerService.showCustomerScreen();
                             roleChoice = console.nextInt();
@@ -89,6 +139,7 @@ public class JavaActivity {
             System.out.println("\nThank you for using our services!\n");
             
         }
+    }
         
         catch (Exception e) {
             System.out.println();

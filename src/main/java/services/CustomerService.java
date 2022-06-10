@@ -17,8 +17,6 @@ public interface CustomerService {
     
     public boolean isACustomer(User customerAcc);
     
-    public void addCustomer();
-    
     public ArrayList<User> getCustomerUsers();
     
     public void placeOrder();

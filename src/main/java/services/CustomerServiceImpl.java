@@ -41,11 +41,6 @@ public class CustomerServiceImpl implements CustomerService{
     }
     
     @Override
-    public void addCustomer() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    @Override
     public ArrayList<User> getCustomerUsers() {
         return customerUsers;
     }

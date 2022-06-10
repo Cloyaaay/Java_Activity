@@ -21,8 +21,7 @@ public class AdminServiceImpl implements AdminService{
     private ArrayList<User> adminUsers = new ArrayList<>();
     
     public AdminServiceImpl(){
-        adminUsers.add(new User("admin1", "helloWorld2*"));
-        adminUsers.add(new User("admin2", "helloWorld2*"));
+        adminUsers.add(new User("admin", "123"));
     }
     
     @Override
@@ -40,21 +39,25 @@ public class AdminServiceImpl implements AdminService{
         }
         return result;
     }
-     
-    @Override
-    public void addAdmin(User adminUser) {
-        adminUsers.add(adminUser);
-    }
     
     @Override
     public ArrayList<User> getAdminUsers() {
         return adminUsers;
     }
 
+    @Override
+    public void addProduct(Product product) {
+        productsAvailable.add(product);
+    }
     
     @Override
-    public void addProduct() {
+    public void removeProduct(Product product) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public ArrayList<Product> getProducts() {
+        return productsAvailable;
     }
 
     @Override
@@ -69,8 +72,6 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public void showAdminScreen() {
-        
-        int choice;
         
         System.out.println("\n\n***********************");
         System.out.println("*    ADMINISTRATOR    *");
