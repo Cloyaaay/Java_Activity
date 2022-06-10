@@ -59,13 +59,15 @@ public class CustomerServiceImpl implements CustomerService{
     public void showCustomerScreen() {
         int choice;
         
-        System.out.println("***********************");
+        System.out.println("\n\n***********************");
         System.out.println("*      CUSTOMER      *");
         System.out.println("***********************");
         System.out.println("1 - Shop");
         System.out.println("2 - My Orders");
         System.out.println("........................");
-        System.out.println("0 - Logout");
+        System.out.println("0 - Logout\n");
+        
+        System.out.print("What do you want to do? : ");
     }
     
 }

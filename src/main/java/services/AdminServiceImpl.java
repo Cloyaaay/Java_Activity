@@ -72,12 +72,13 @@ public class AdminServiceImpl implements AdminService{
         
         int choice;
         
-        System.out.println("***********************");
+        System.out.println("\n\n***********************");
         System.out.println("*    ADMINISTRATOR    *");
         System.out.println("***********************");
         System.out.println("1 - Manage Products");
         System.out.println("2 - Manage Orders");
         System.out.println("........................");
-        System.out.println("0 - Logout");
+        System.out.println("0 - Logout\n");
+        System.out.print("What do you want to do? : ");
     }
 }
