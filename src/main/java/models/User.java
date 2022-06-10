@@ -11,18 +11,15 @@ package models;
 public class User {
     private String userName;
     private String password;
-    private String accountType;
     
     public User(){
         this.userName = "Default";
         this.password = "Default";
-        this.accountType = "Customer";
     }
     
-    public User (String userName, String password, String accountType){
+    public User (String userName, String password){
         this.userName = userName;
         this.password = password;
-        this.accountType = accountType;
     }
 
     public void setUserName(String userName) {
@@ -33,10 +30,6 @@ public class User {
         this.password = password;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
     public String getUserName() {
         return userName;
     }
@@ -44,10 +37,4 @@ public class User {
     public String getPassword() {
         return password;
     }
-
-    public String getAccountType() {
-        return accountType;
-    }
-   
-    
 }
