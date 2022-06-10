@@ -20,6 +20,8 @@ public interface AdminService {
     
     public ArrayList<Product> getProducts();
     
+    public Product findProduct(int productID);
+    
     public boolean isAnAdmin(User adminAcc);
     
     public void addProduct(Product product);

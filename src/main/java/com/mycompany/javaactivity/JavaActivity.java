@@ -43,6 +43,7 @@ public class JavaActivity {
         String productName="";
         int productPrice=0;
         int productID = 0;
+        int removeProduct;
 
         AdminService adminService = new AdminServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
@@ -95,7 +96,8 @@ public class JavaActivity {
 
                                     System.out.println("........................");
                                     System.out.println("1 - Add New Product");
-                                    System.out.println("2 - Remove Product\n");
+                                    System.out.println("2 - Remove Product");
+                                    System.out.println("0 - Back\n");
                                     System.out.print("What do you want to do? : ");
 
                                     adminChoice = console.nextInt();
@@ -105,7 +107,8 @@ public class JavaActivity {
                                         System.out.println("*     ADD PRODUCT     *");
                                         System.out.println("***********************");
                                         
-                                       
+                                        //TODO: VALIDATION
+                                        
                                         System.out.print("Name: ");
                                         productName = console.next();
                                         
@@ -116,7 +119,17 @@ public class JavaActivity {
                                         
                                         Product newProduct = new Product(productName, productID, productPrice);
                                         productsAvailable.add(newProduct);
+                                    }
+                                    
+                                    else if(adminChoice==2){
+                                        System.out.println("\n\n***********************");
+                                        System.out.println("*    REMOVE PRODUCT    *");
+                                        System.out.println("***********************");
                                         
+                                        System.out.print("Product ID: ");
+                                        removeProduct = console.nextInt();
+
+                                        productsAvailable.remove(adminService.findProduct(removeProduct));
                                         
                                     }
                                 }

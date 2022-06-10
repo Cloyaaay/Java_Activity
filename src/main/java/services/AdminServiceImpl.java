@@ -52,12 +52,24 @@ public class AdminServiceImpl implements AdminService{
     
     @Override
     public void removeProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        productsAvailable.remove(product);
     }
     
     @Override
     public ArrayList<Product> getProducts() {
         return productsAvailable;
+    }
+    
+    @Override
+    public Product findProduct(int productID) {
+        Product removeProduct = null;
+        for(Product product: productsAvailable){
+            if (product.getProductID()==(productID)){
+                removeProduct = product;
+                break;
+            }
+        }
+        return removeProduct;
     }
 
     @Override
