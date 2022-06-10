@@ -44,6 +44,7 @@ public class JavaActivity {
         int productPrice=0;
         int productID = 0;
         int removeProduct;
+        String answer;
 
         AdminService adminService = new AdminServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
@@ -109,6 +110,7 @@ public class JavaActivity {
                                         
                                         //TODO: VALIDATION
                                         
+                                        
                                         System.out.print("Name: ");
                                         productName = console.next();
                                         
@@ -128,9 +130,22 @@ public class JavaActivity {
                                         
                                         System.out.print("Product ID: ");
                                         removeProduct = console.nextInt();
-
-                                        productsAvailable.remove(adminService.findProduct(removeProduct));
                                         
+                                        while((adminService.findProduct(removeProduct))== null){
+                                            System.out.println("Invalid Input\n");
+                                            System.out.print("Product ID: ");
+                                            removeProduct = console.nextInt();
+                                        }
+                                        System.out.print("Are you sure you want to remove this product? (Y/N): ");
+                                        answer = console.next();
+                                        
+                                        if (answer.equals("Y") || answer.equals("y")){
+                                            productsAvailable.remove(adminService.findProduct(removeProduct));
+                                            System.out.print("Product removed successfully!");
+                                        }
+                                        else{
+                                            System.out.print("Action Canceled");
+                                        }
                                     }
                                 }
                             }
@@ -148,12 +163,9 @@ public class JavaActivity {
                     }
                 }
             }
-            
             System.out.println("\nThank you for using our services!\n");
-            
         }
     }
-        
         catch (Exception e) {
             System.out.println();
             System.out.println("ERROR! Please Try Again." + e);
