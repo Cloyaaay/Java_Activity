@@ -21,7 +21,7 @@ public class CustomerServiceImpl implements CustomerService{
     private ArrayList<User> customerUsers = new ArrayList<>();
     
     public CustomerServiceImpl(){
-        customerUsers.add(new User("customer1", "helloWorld2*"));
+        customerUsers.add(new User("customer", "123"));
     }
     
     @Override

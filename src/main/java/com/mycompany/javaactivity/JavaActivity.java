@@ -23,6 +23,7 @@ public class JavaActivity {
     static int mainChoice =2;
     static int roleChoice =2;
     static int adminChoice;
+    static int manageProductChoice;
     
     public static void mainMenu (){
     
@@ -71,14 +72,16 @@ public class JavaActivity {
                     System.out.print("\n");
 
                     User logInUser = new User(userName, password);
+                    roleChoice=1;
                     
                     while (roleChoice!=0){
                         if (adminService.isAnAdmin(logInUser)){
                             adminService.showAdminScreen();
                             adminChoice = console.nextInt();
-                            
-                            if(adminChoice==1){
-                                while(adminChoice!=0){
+                            roleChoice=adminChoice;
+
+                            while(adminChoice!=0){
+                                if(adminChoice==1){
                                     System.out.println("\n\n***********************");
                                     System.out.println("*      PRODUCTS       *");
                                     System.out.println("***********************");
@@ -101,26 +104,26 @@ public class JavaActivity {
                                     System.out.println("0 - Back\n");
                                     System.out.print("What do you want to do? : ");
 
-                                    adminChoice = console.nextInt();
-                                    
-                                    if (adminChoice==1){
+                                    manageProductChoice = console.nextInt();
+
+                                    if (manageProductChoice==1){
                                         System.out.println("\n\n***********************");
                                         System.out.println("*     ADD PRODUCT     *");
                                         System.out.println("***********************");
-                                        
+
                                         //TODO: VALIDATION
-                                        
+
                                         System.out.print("Name: ");
                                         productName = console.next();
-                                        
+
                                         System.out.print(isValid);
-                                        
+
                                         do{
                                             try{
                                                 System.out.print("Product Price: ");
                                                 productPrice = console.nextInt();
                                                 isValid=true;
-                                                
+
                                             }
                                             catch (Exception e){
                                                 System.out.println("Invalid number");
@@ -129,21 +132,21 @@ public class JavaActivity {
                                             }
                                         }
                                         while(!isValid);
-                                        
+
                                         productID++;
-                                        
+
                                         Product newProduct = new Product(productName, productID, productPrice);
                                         productsAvailable.add(newProduct);
                                     }
-                                    
-                                    else if(adminChoice==2){
+
+                                    else if(manageProductChoice==2){
                                         System.out.println("\n\n***********************");
                                         System.out.println("*    REMOVE PRODUCT    *");
                                         System.out.println("***********************");
-                                        
+
                                         System.out.print("Product ID: ");
                                         removeProduct = console.nextInt();
-                                        
+
                                         while((adminService.findProduct(removeProduct))== null){
                                             System.out.println("Invalid Input\n");
                                             System.out.print("Product ID: ");
@@ -151,7 +154,7 @@ public class JavaActivity {
                                         }
                                         System.out.print("Are you sure you want to remove this product? (Y/N): ");
                                         answer = console.next();
-                                        
+
                                         if (answer.equals("Y") || answer.equals("y")){
                                             productsAvailable.remove(adminService.findProduct(removeProduct));
                                             System.out.print("Product removed successfully!");
@@ -160,13 +163,20 @@ public class JavaActivity {
                                             System.out.print("Action Canceled");
                                         }
                                     }
+                                    
+                                    else{
+                                        break;
+                                    }
                                 }
                             }
+
+                        }
                         else if (customerService.isACustomer(logInUser)){
+                            System.out.print("HELLO CUSTOMER");
                             customerService.showCustomerScreen();
                             roleChoice = console.nextInt();
-                            mainChoice = 2;
-                    }
+                            
+                        }
                         else{
                             System.out.println("ERROR: Invalid Credentials");
                             System.out.println("Press 'ENTER' to Continue\n");
@@ -175,10 +185,16 @@ public class JavaActivity {
                         }
                     }
                 }
+                if(mainChoice==0){
+                    System.out.println("\nThank you for using our services!\n");
+                }
+//                System.out.println("\nThank you for using our services!\n");
+//                roleChoice=0;
+                else{
+                    mainChoice=2;
+                }
             }
-            System.out.println("\nThank you for using our services!\n");
         }
-    }
         catch (Exception e) {
             System.out.println();
             System.out.println("ERROR! Please Try Again." + e);
