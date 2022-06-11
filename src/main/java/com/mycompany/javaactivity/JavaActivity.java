@@ -30,6 +30,7 @@ public class JavaActivity {
     static int customerChoice;
     
     
+    //Function that displays the main menu
     public static void mainMenu (){
     
         System.out.println("\n\n***********************");
@@ -79,6 +80,7 @@ public class JavaActivity {
                     mainMenu();
                     mainChoice = console.nextInt();
                 }
+                //Admin Side
                 if(mainChoice==1){
                     System.out.println("\n\n***********************");
                     System.out.println("*        LOGIN        *");
@@ -97,8 +99,9 @@ public class JavaActivity {
                             adminService.showAdminScreen();
                             adminChoice = console.nextInt();
                             roleChoice=adminChoice;
-
+                            
                             while(adminChoice!=0){
+                                //Admin Side for managing products
                                 if(adminChoice==1){
                                     System.out.println("\n\n***********************");
                                     System.out.println("*      PRODUCTS       *");
@@ -110,6 +113,7 @@ public class JavaActivity {
                                         System.out.println("  No Products Found.");
                                     }
                                     else{ 
+                                        //Printing all products from the shop
                                         for(Product product: productsAvailable){
                                             System.out.println(product.getProductID() + "\t" + product.getProductName() + "\t" + product.getProductPrice());
                                         }
@@ -122,6 +126,7 @@ public class JavaActivity {
 
                                     manageProductChoice = console.nextInt();
 
+                                    //Admin side for adding a product 
                                     if (manageProductChoice==1){
                                         System.out.println("\n\n***********************");
                                         System.out.println("*     ADD PRODUCT     *");
@@ -145,12 +150,13 @@ public class JavaActivity {
                                         while(!isValid);
 
                                         productID++;
-
+                                        
+                                        //Add the products to the shop
                                         Product newProduct = new Product(productName, productID, productPrice);
                                         productsAvailable.add(newProduct);
                                         System.out.println("Product added successfully!");
                                     }
-
+                                    //Admin side for removing a product
                                     else if(manageProductChoice==2){
                                         System.out.println("\n\n***********************");
                                         System.out.println("*    REMOVE PRODUCT    *");
@@ -175,6 +181,7 @@ public class JavaActivity {
                                                 answer = console.next();
 
                                                 if (answer.equals("Y") || answer.equals("y")){
+                                                    //Removing products from the shop
                                                     productsAvailable.remove(adminService.findProduct(removeProduct));
                                                     System.out.print("Product removed successfully!");
                                                 }
@@ -194,9 +201,8 @@ public class JavaActivity {
                                         break;
                                     }
                                 }
-                                
+                                //Admin side for managing orders
                                 else if(adminChoice==2){
-                                    
                                     System.out.println("\n\n***********************");
                                     System.out.println("*       ORDERS       *");
                                     System.out.println("***********************");
@@ -207,6 +213,7 @@ public class JavaActivity {
                                         System.out.println("  No Orders Found.");
                                     }
                                     else{ 
+                                        //Printing customer's orders
                                         for(Order order: customerOrders){
                                             System.out.println(order.getOrderDate() + "\t " + order.getReference() +"\t\t" + order.getProductName() + "\t" 
                                             + order.getProductPrice() + "\t\t" + order.getProductQuatity() + "\t" + order.getTotalPrice() + "\t\t" + order.getOrderStatus());
@@ -219,6 +226,7 @@ public class JavaActivity {
                                     System.out.print("What do you want to do? : ");
                                     manageProductChoice = console.nextInt();
                                     
+                                    //Admin side for marking product as delivered
                                     if (manageProductChoice==1){
 
                                         do{
@@ -234,7 +242,8 @@ public class JavaActivity {
 
                                                 System.out.print("Order Reference: " );
                                                 orderReference = console.next();
-
+                                                
+                                                //Finding the order by reference from the list of orders
                                                 Order thisOrder = orderService.findOrder(orderReference);
 
                                                 if(thisOrder== null){
@@ -247,6 +256,7 @@ public class JavaActivity {
                                                 answer = console.next();
 
                                                 if (answer.equals("Y") || answer.equals("y")){
+                                                    //Setting the order's status as delivered
                                                     thisOrder.setOrderStatus("DELIVERED");
                                                     System.out.print("\nOrder updated successfully!");
                                                     isValid=true;
@@ -270,12 +280,14 @@ public class JavaActivity {
                                 }
                             }
                         }
+                        //Customer side
                         else if (customerService.isACustomer(logInUser)){
                             customerService.showCustomerScreen();
                             customerChoice = console.nextInt();
                             roleChoice=customerChoice;
                             
                             while(customerChoice!=0){
+                                //Customer side for shopping products
                                 if (customerChoice==1){
                                     System.out.println("\n\n***********************");
                                     System.out.println("*      PRODUCTS       *");
@@ -287,6 +299,7 @@ public class JavaActivity {
                                         System.out.println("  No Products Found.");
                                     }
                                     else{ 
+                                        //Printing products from the shop
                                         for(Product product: productsAvailable){
                                             System.out.println(product.getProductID() + "\t" + product.getProductName() + "\t" + product.getProductPrice());
                                         }
@@ -314,6 +327,8 @@ public class JavaActivity {
                                                 isValid=false;
                                                 break;
                                             }
+                                            
+                                            //Finding and saving the product that the customer wants to order
                                             Product product = adminService.findProduct(orderProduct);
                                             
                                             System.out.println("\n\n***********************");
@@ -339,6 +354,7 @@ public class JavaActivity {
                                             }
                                             while(!isValid2);
                                             
+                                            //Calculate total price of the order
                                             totalPrice = orderService.computeTotalPrice(product, orderQuantity);
                                             
                                             System.out.println("\nThat would be Php " + totalPrice);
@@ -347,8 +363,9 @@ public class JavaActivity {
                                                 try{
                                                     System.out.print("Proceed with your order (Y/N): ");
                                                     answer = console.next();
-
+                                                    
                                                     if (answer.equals("Y") || answer.equals("y")){
+                                                        //Create order and set its attributes then add it to the list of orders
                                                         Order order = new Order(product.getProductName(), product.getProductID(), product.getProductPrice());
                                                         order.setOrderDate(orderService.generateOrderDate());
                                                         order.setReference(orderService.generateReferenceCode());
@@ -384,6 +401,7 @@ public class JavaActivity {
                                     }
                                     while(!isValid);  
                                 }
+                                //Customer side for checking orders
                                 else if(customerChoice==2){
                                     System.out.println("\n\n***********************");
                                     System.out.println("*      MY ORDERS      *");
@@ -395,6 +413,7 @@ public class JavaActivity {
                                         System.out.println("  No Orders Found.");
                                     }
                                     else{ 
+                                        //Printing of customer's orders
                                         for(Order order: customerOrders){
                                             System.out.println(order.getOrderDate() + "\t " + order.getReference() +"\t\t" + order.getProductName() + "\t\t" 
                                             + order.getProductPrice() + "\t\t" + order.getProductQuatity() + "\t" + order.getTotalPrice() + "\t\t" + order.getOrderStatus());
