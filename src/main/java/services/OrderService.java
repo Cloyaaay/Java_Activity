@@ -25,4 +25,6 @@ public interface OrderService {
     
     public ArrayList<Order> getOrders();
     
+    public Order findOrder(String reference);
+    
 }

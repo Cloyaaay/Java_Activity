@@ -43,10 +43,10 @@ public class JavaActivity {
     }
  
     public static void main(String[] args) {
+    
         String userName;
         String password;
         
-        String productName="";
         int productPrice=0;
         int productID = 0;
         int removeProduct;
@@ -59,6 +59,8 @@ public class JavaActivity {
         int totalPrice=0;
         boolean isValid2=true;
         boolean isValid3=true;
+        
+        String orderReference;
 
         AdminService adminService = new AdminServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
@@ -124,8 +126,6 @@ public class JavaActivity {
                                         System.out.println("*     ADD PRODUCT     *");
                                         System.out.println("***********************");
 
-                                        //TODO: VALIDATION
-
                                         System.out.print("Name: ");
                                         productName = console.next();
 
@@ -148,6 +148,7 @@ public class JavaActivity {
 
                                         Product newProduct = new Product(productName, productID, productPrice);
                                         productsAvailable.add(newProduct);
+                                        System.out.println("Product added successfully!");
                                     }
 
                                     else if(manageProductChoice==2){
@@ -193,6 +194,81 @@ public class JavaActivity {
                                         break;
                                     }
                                 }
+                                
+                                else if(adminChoice==2){
+                                    
+                                    System.out.println("\n\n***********************");
+                                    System.out.println("*       ORDERS       *");
+                                    System.out.println("***********************");
+
+                                    System.out.println("Date \t\t\t\t Reference \t Name \t\t Price \t\t Quantity \t Total \t\t Status");
+                                    
+                                    if (customerOrders.isEmpty()){
+                                        System.out.println("  No Orders Found.");
+                                    }
+                                    else{ 
+                                        for(Order order: customerOrders){
+                                            System.out.println(order.getOrderDate() + "\t " + order.getReference() +"\t\t" + order.getProductName() + "\t" 
+                                            + order.getProductPrice() + "\t\t" + order.getProductQuatity() + "\t" + order.getTotalPrice() + "\t\t" + order.getOrderStatus());
+                                        }
+                                    }
+                                    
+                                    System.out.println("........................");
+                                    System.out.println("1 - Mark Order as Delivered");
+                                    System.out.println("0 - Back\n");
+                                    System.out.print("What do you want to do? : ");
+                                    manageProductChoice = console.nextInt();
+                                    
+                                    boolean isEmpty = customerOrders.isEmpty();
+                                    
+                                    if (manageProductChoice==1){
+
+                                        do{
+                                            try{
+                                                if(customerOrders.isEmpty()){
+                                                    System.out.print("No products found. Nothing to update here.");
+                                                    isValid=false;
+                                                    break;
+                                                }
+                                                System.out.println("\n\n***********************");
+                                                System.out.println("* UPDATE ORDER STATUS *");
+                                                System.out.println("***********************");
+
+                                                System.out.print("Order Reference: " );
+                                                orderReference = console.next();
+
+                                                Order thisOrder = orderService.findOrder(orderReference);
+
+                                                if(thisOrder== null){
+                                                    System.out.print("Order does not exist. Please try again.");
+                                                    isValid=false;
+                                                    break;
+                                                }
+                                                
+                                                System.out.print("\nAre you sure you want to mark this order as delivered? (Y/N): ");
+                                                answer = console.next();
+
+                                                if (answer.equals("Y") || answer.equals("y")){
+                                                    thisOrder.setOrderStatus("DELIVERED");
+                                                    System.out.print("\nOrder updated successfully!");
+                                                    isValid=true;
+                                                }
+                                                else if ((answer.equals("N") || answer.equals("n"))){
+                                                    System.out.print("\nAction Canceled");
+                                                }
+                                                else{
+                                                    System.out.println("\nInvalid input. Please try again");
+                                                }
+                                            }
+                                            catch(Exception e){
+                                                System.out.println("\nInvalid character. Please try again");
+                                                isValid=false;
+                                            }
+                                        }
+                                            while(!isValid);
+                                    }                                    
+                                    adminChoice=0;
+                                }
                             }
                         }
                         else if (customerService.isACustomer(logInUser)){
@@ -226,17 +302,16 @@ public class JavaActivity {
                                             isValid=true;
                                             
                                             if(customerChoice==0){
-                                                
                                                 break;
                                             }
 
                                             if(productsAvailable.isEmpty()){
-                                                System.out.print("No products found. Nothing to delete here.");
+                                                System.out.print("\nNo products found. Nothing to delete here.");
                                                 isValid=false;
                                                 break;
                                             }
                                             else if((adminService.findProduct(orderProduct))== null){
-                                                System.out.print("Product not found. Please try again.");
+                                                System.out.print("\nProduct not found. Please try again.");
                                                 isValid=false;
                                                 break;
                                             }
@@ -267,7 +342,7 @@ public class JavaActivity {
                                             
                                             totalPrice = orderService.computeTotalPrice(product, orderQuantity);
                                             
-                                            System.out.println("That would be Php " + totalPrice);
+                                            System.out.println("\nThat would be Php " + totalPrice);
 
                                             do{
                                                 try{
@@ -282,12 +357,16 @@ public class JavaActivity {
                                                         order.setProductQuatity(orderQuantity);
                                                         order.setTotalPrice(totalPrice);
                                                         customerOrders.add(order);
-                                                        System.out.print("Order placed successfully!");
+                                                        System.out.print("\nOrder placed successfully!");
                                                         isValid3=true;
                                                     }
+                                                    else if ((answer.equals("N") || answer.equals("n"))){
+                                                        System.out.print("\nAction Canceled");
+                                                        isValid=true;
+                                                    }
                                                     else{
-                                                        System.out.print("Action Canceled");
-                                                        isValid3=true;
+                                                        System.out.println("Invalid character. Please try again");
+                                                        isValid3=false;
                                                     }
                                                 }
                                                 catch(Exception e){
@@ -337,7 +416,6 @@ public class JavaActivity {
                 if(mainChoice==0){
                     System.out.println("\nThank you for using our services!\n");
                 }
-//                roleChoice=0;
                 else{
                     mainChoice=2;
                 }

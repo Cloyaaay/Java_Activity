@@ -57,5 +57,17 @@ public class OrderServiceImpl implements OrderService{
     public ArrayList<Order> getOrders() {
         return customerOrders;
     }
+
+    @Override
+    public Order findOrder(String reference) {
+        Order found = null;
+        for(Order order: customerOrders){
+            if (order.getReference().equals(reference)){
+                found = order;
+                break;
+            }
+        }
+        return found;
+    }
     
 }
