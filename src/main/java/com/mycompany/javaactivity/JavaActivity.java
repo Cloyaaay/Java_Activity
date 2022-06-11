@@ -143,33 +143,46 @@ public class JavaActivity {
                                         System.out.println("\n\n***********************");
                                         System.out.println("*    REMOVE PRODUCT    *");
                                         System.out.println("***********************");
+                                        do{
+                                            try{
+                                                System.out.print("Product ID: ");
+                                                removeProduct = console.nextInt();
+                                                isValid=true;
+                                                
+                                                if(productsAvailable.isEmpty()){
+                                                    System.out.print("No products found. Nothing to delete here.");
+                                                    isValid=false;
+                                                    break;
+                                                }
+                                                else if((adminService.findProduct(removeProduct))== null){
+                                                    System.out.print("Product not found. Please try again.");
+                                                    isValid=false;
+                                                    break;
+                                                }
+                                                System.out.print("Are you sure you want to remove this product? (Y/N): ");
+                                                answer = console.next();
 
-                                        System.out.print("Product ID: ");
-                                        removeProduct = console.nextInt();
-
-                                        while((adminService.findProduct(removeProduct))== null){
-                                            System.out.println("Invalid Input\n");
-                                            System.out.print("Product ID: ");
-                                            removeProduct = console.nextInt();
+                                                if (answer.equals("Y") || answer.equals("y")){
+                                                    productsAvailable.remove(adminService.findProduct(removeProduct));
+                                                    System.out.print("Product removed successfully!");
+                                                }
+                                                else{
+                                                    System.out.print("Action Canceled");
+                                                }
+                                            }
+                                            catch (Exception e){
+                                                System.out.println("Invalid Input. Please try again");
+                                                console.next();
+                                                isValid=false;
+                                            }
                                         }
-                                        System.out.print("Are you sure you want to remove this product? (Y/N): ");
-                                        answer = console.next();
-
-                                        if (answer.equals("Y") || answer.equals("y")){
-                                            productsAvailable.remove(adminService.findProduct(removeProduct));
-                                            System.out.print("Product removed successfully!");
-                                        }
-                                        else{
-                                            System.out.print("Action Canceled");
-                                        }
+                                        while(!isValid);
                                     }
-                                    
                                     else{
                                         break;
                                     }
                                 }
                             }
-
                         }
                         else if (customerService.isACustomer(logInUser)){
                             System.out.print("HELLO CUSTOMER");
@@ -188,7 +201,6 @@ public class JavaActivity {
                 if(mainChoice==0){
                     System.out.println("\nThank you for using our services!\n");
                 }
-//                System.out.println("\nThank you for using our services!\n");
 //                roleChoice=0;
                 else{
                     mainChoice=2;
