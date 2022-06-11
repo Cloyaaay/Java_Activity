@@ -47,6 +47,7 @@ public class JavaActivity {
         String userName;
         String password;
         
+        String productName;
         int productPrice=0;
         int productID = 0;
         int removeProduct;
@@ -56,7 +57,7 @@ public class JavaActivity {
         
         int orderProduct;
         int orderQuantity = 0;
-        int totalPrice=0;
+        int totalPrice;
         boolean isValid2=true;
         boolean isValid3=true;
         
@@ -128,7 +129,6 @@ public class JavaActivity {
 
                                         System.out.print("Name: ");
                                         productName = console.next();
-
                                         do{
                                             try{
                                                 System.out.print("Product Price: ");
@@ -219,8 +219,6 @@ public class JavaActivity {
                                     System.out.print("What do you want to do? : ");
                                     manageProductChoice = console.nextInt();
                                     
-                                    boolean isEmpty = customerOrders.isEmpty();
-                                    
                                     if (manageProductChoice==1){
 
                                         do{
@@ -240,7 +238,7 @@ public class JavaActivity {
                                                 Order thisOrder = orderService.findOrder(orderReference);
 
                                                 if(thisOrder== null){
-                                                    System.out.print("Order does not exist. Please try again.");
+                                                    System.out.print("\nOrder does not exist. Please try again.");
                                                     isValid=false;
                                                     break;
                                                 }
@@ -255,6 +253,7 @@ public class JavaActivity {
                                                 }
                                                 else if ((answer.equals("N") || answer.equals("n"))){
                                                     System.out.print("\nAction Canceled");
+                                                    isValid=true;
                                                 }
                                                 else{
                                                     System.out.println("\nInvalid input. Please try again");
@@ -333,7 +332,7 @@ public class JavaActivity {
                                                     isValid2=true;
                                                 }
                                                 catch(Exception e){
-                                                    System.out.println("Invalid Input. Please try again");
+                                                    System.out.println("\nInvalid Input. Please try again");
                                                     console.next();
                                                     isValid2=false;
                                                 }
@@ -362,7 +361,7 @@ public class JavaActivity {
                                                     }
                                                     else if ((answer.equals("N") || answer.equals("n"))){
                                                         System.out.print("\nAction Canceled");
-                                                        isValid=true;
+                                                        isValid3=true;
                                                     }
                                                     else{
                                                         System.out.println("Invalid character. Please try again");
@@ -370,7 +369,7 @@ public class JavaActivity {
                                                     }
                                                 }
                                                 catch(Exception e){
-                                                    System.out.println("Invalid Character. Please try again");
+                                                    System.out.println("Invalid Character. Please try again.");
                                                     console.next();
                                                     isValid3=false;
                                                 }
