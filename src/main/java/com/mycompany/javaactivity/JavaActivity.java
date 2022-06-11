@@ -116,8 +116,6 @@ public class JavaActivity {
                                         System.out.print("Name: ");
                                         productName = console.next();
 
-                                        System.out.print(isValid);
-
                                         do{
                                             try{
                                                 System.out.print("Product Price: ");
@@ -126,7 +124,7 @@ public class JavaActivity {
 
                                             }
                                             catch (Exception e){
-                                                System.out.println("Invalid number");
+                                                System.out.println("Invalid number. Please try again.");
                                                 console.next();
                                                 isValid=false;
                                             }
