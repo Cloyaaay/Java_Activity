@@ -21,8 +21,8 @@ public interface OrderService {
     
     public Date generateOrderDate();
     
-    public void placeOrder(Product product);
+    public void placeOrder(Order product);
     
-    public ArrayList<Product> getOrders();
+    public ArrayList<Order> getOrders();
     
 }

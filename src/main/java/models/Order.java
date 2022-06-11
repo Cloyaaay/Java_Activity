@@ -16,7 +16,12 @@ public class Order extends Product{
     private int productQuatity;
     private int totalPrice;
     private String orderStatus;
+    private String reference;
     
+    
+    public Order(String productName, int productID, int productPrice) {
+        super(productName, productID, productPrice);
+    }
     public Order(String productName, int productID, int productPrice, int productQuantity){
         super(productName, productID, productPrice);
         this.productQuatity = productQuantity;
@@ -60,6 +65,14 @@ public class Order extends Product{
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
     
     

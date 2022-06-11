@@ -18,7 +18,10 @@ import models.Product;
  */
 public class OrderServiceImpl implements OrderService{
     
-    private ArrayList<Product> customerOrders = new ArrayList<>();
+    private ArrayList<Order> customerOrders = new ArrayList<>();
+
+    public OrderServiceImpl() {
+    }
 
     @Override
     public int computeTotalPrice(Product order, int quantity) {
@@ -36,7 +39,7 @@ public class OrderServiceImpl implements OrderService{
             char randomChar = (char) (random.nextInt(26) + 'a');
             referenceCode = referenceCode + randomChar;
         }
-        return referenceCode;
+        return referenceCode.toUpperCase();
     }
 
     @Override
@@ -46,12 +49,12 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public void placeOrder(Product product) {
+    public void placeOrder(Order product) {
         customerOrders.add(product);
     }
 
     @Override
-    public ArrayList<Product> getOrders() {
+    public ArrayList<Order> getOrders() {
         return customerOrders;
     }
     

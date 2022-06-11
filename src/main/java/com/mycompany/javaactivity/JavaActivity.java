@@ -67,7 +67,7 @@ public class JavaActivity {
         ArrayList<User> adminUsers = adminService.getAdminUsers();
         ArrayList<User> customerUsers = customerService.getCustomerUsers();
         ArrayList<Product> productsAvailable = adminService.getProducts();
-        ArrayList<Product> customerOrders = orderService.getOrders();
+        ArrayList<Order> customerOrders = orderService.getOrders();
         
         try{
             while(mainChoice!=0){
@@ -275,10 +275,14 @@ public class JavaActivity {
                                                     answer = console.next();
 
                                                     if (answer.equals("Y") || answer.equals("y")){
-                                                        customerOrders.add(product);
+                                                        Order order = new Order(product.getProductName(), product.getProductID(), product.getProductPrice());
+                                                        order.setOrderDate(orderService.generateOrderDate());
+                                                        order.setReference(orderService.generateReferenceCode());
+                                                        order.setOrderStatus("FOR_DELIVERY");
+                                                        order.setProductQuatity(orderQuantity);
+                                                        order.setTotalPrice(totalPrice);
+                                                        customerOrders.add(order);
                                                         System.out.print("Order placed successfully!");
-                                                        
-                                                        
                                                         isValid3=true;
                                                     }
                                                     else{
@@ -302,6 +306,24 @@ public class JavaActivity {
                                     }
                                     while(!isValid);  
                                 }
+                                else if(customerChoice==2){
+                                    System.out.println("\n\n***********************");
+                                    System.out.println("*      MY ORDERS      *");
+                                    System.out.println("***********************");
+
+                                    System.out.println("Date \t\t\t\t Reference \t Name \t Price \t Quantity \t Total \t Status");
+                                    
+                                    if (customerOrders.isEmpty()){
+                                        System.out.println("  No Orders Found.");
+                                    }
+                                    else{ 
+                                        for(Order order: customerOrders){
+                                            System.out.println(order.getOrderDate() + "\t " + order.getReference() +"\t\t" + order.getProductName() + "\t\t" 
+                                            + order.getProductPrice() + "\t\t" + order.getProductQuatity() + "\t" + order.getTotalPrice() + "\t\t" + order.getOrderStatus());
+                                        }
+                                    }
+                                }
+                                customerChoice=0;
                             }
                         }
                         else{
