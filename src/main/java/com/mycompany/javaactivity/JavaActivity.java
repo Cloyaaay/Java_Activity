@@ -45,6 +45,7 @@ public class JavaActivity {
         int productID = 0;
         int removeProduct;
         String answer;
+        boolean isValid=true;
 
         AdminService adminService = new AdminServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
@@ -94,7 +95,6 @@ public class JavaActivity {
                                             System.out.println(product.getProductID() + "\t" + product.getProductName() + "\t" + product.getProductPrice());
                                         }
                                     }
-
                                     System.out.println("........................");
                                     System.out.println("1 - Add New Product");
                                     System.out.println("2 - Remove Product");
@@ -110,12 +110,25 @@ public class JavaActivity {
                                         
                                         //TODO: VALIDATION
                                         
-                                        
                                         System.out.print("Name: ");
                                         productName = console.next();
                                         
-                                        System.out.print("Product Price: ");
-                                        productPrice = console.nextInt();
+                                        System.out.print(isValid);
+                                        
+                                        do{
+                                            try{
+                                                System.out.print("Product Price: ");
+                                                productPrice = console.nextInt();
+                                                isValid=true;
+                                                
+                                            }
+                                            catch (Exception e){
+                                                System.out.println("Invalid number");
+                                                console.next();
+                                                isValid=false;
+                                            }
+                                        }
+                                        while(!isValid);
                                         
                                         productID++;
                                         
