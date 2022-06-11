@@ -7,12 +7,15 @@ package com.mycompany.javaactivity;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import models.Order;
 import models.Product;
 import models.User;
 import services.AdminService;
 import services.AdminServiceImpl;
 import services.CustomerService;
 import services.CustomerServiceImpl;
+import services.OrderService;
+import services.OrderServiceImpl;
 
 /**
  *
@@ -24,6 +27,8 @@ public class JavaActivity {
     static int roleChoice =2;
     static int adminChoice;
     static int manageProductChoice;
+    static int customerChoice;
+    
     
     public static void mainMenu (){
     
@@ -47,12 +52,22 @@ public class JavaActivity {
         int removeProduct;
         String answer;
         boolean isValid=true;
+        
+        
+        int orderProduct;
+        int orderQuantity = 0;
+        int totalPrice=0;
+        boolean isValid2=true;
+        boolean isValid3=true;
 
         AdminService adminService = new AdminServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
+        OrderService orderService = new OrderServiceImpl();
         
         ArrayList<User> adminUsers = adminService.getAdminUsers();
         ArrayList<User> customerUsers = customerService.getCustomerUsers();
+        ArrayList<Product> productsAvailable = adminService.getProducts();
+        ArrayList<Product> customerOrders = orderService.getOrders();
         
         try{
             while(mainChoice!=0){
@@ -87,8 +102,6 @@ public class JavaActivity {
                                     System.out.println("***********************");
 
                                     System.out.println("ID \t Name \t Price");
-
-                                    ArrayList<Product> productsAvailable = adminService.getProducts();
 
                                     if (productsAvailable.isEmpty()){
                                         System.out.println("  No Products Found.");
@@ -183,10 +196,113 @@ public class JavaActivity {
                             }
                         }
                         else if (customerService.isACustomer(logInUser)){
-                            System.out.print("HELLO CUSTOMER");
                             customerService.showCustomerScreen();
-                            roleChoice = console.nextInt();
+                            customerChoice = console.nextInt();
+                            roleChoice=customerChoice;
                             
+                            while(customerChoice!=0){
+                                if (customerChoice==1){
+                                    System.out.println("\n\n***********************");
+                                    System.out.println("*      PRODUCTS       *");
+                                    System.out.println("***********************");
+
+                                    System.out.println("ID \t Name \t Price");
+                                    
+                                    if (productsAvailable.isEmpty()){
+                                        System.out.println("  No Products Found.");
+                                    }
+                                    else{ 
+                                        for(Product product: productsAvailable){
+                                            System.out.println(product.getProductID() + "\t" + product.getProductName() + "\t" + product.getProductPrice());
+                                        }
+                                    }
+                                    System.out.println("........................");
+                                    System.out.println("0 - Back\n");
+                                    do{
+                                        try{
+                                            System.out.print("What do you want to order? : ");
+                                            orderProduct = console.nextInt();
+                                            customerChoice=orderProduct;
+                                            isValid=true;
+                                            
+                                            if(customerChoice==0){
+                                                
+                                                break;
+                                            }
+
+                                            if(productsAvailable.isEmpty()){
+                                                System.out.print("No products found. Nothing to delete here.");
+                                                isValid=false;
+                                                break;
+                                            }
+                                            else if((adminService.findProduct(orderProduct))== null){
+                                                System.out.print("Product not found. Please try again.");
+                                                isValid=false;
+                                                break;
+                                            }
+                                            Product product = adminService.findProduct(orderProduct);
+                                            
+                                            System.out.println("\n\n***********************");
+                                            System.out.println("*     PLACE ORDER     *");
+                                            System.out.println("***********************");
+
+                                            System.out.println("ID \t Name \t Price");
+                                            System.out.println(product.getProductID() + "\t" + product.getProductName() + "\t" + product.getProductPrice());
+                                            
+                                            System.out.println("........................");
+                                            
+                                            do{
+                                                try{
+                                                    System.out.print("How many do you want? : ");
+                                                    orderQuantity = console.nextInt();
+                                                    isValid2=true;
+                                                }
+                                                catch(Exception e){
+                                                    System.out.println("Invalid Input. Please try again");
+                                                    console.next();
+                                                    isValid2=false;
+                                                }
+                                            }
+                                            while(!isValid2);
+                                            
+                                            totalPrice = orderService.computeTotalPrice(product, orderQuantity);
+                                            
+                                            System.out.println("That would be Php " + totalPrice);
+
+                                            do{
+                                                try{
+                                                    System.out.print("Proceed with your order (Y/N): ");
+                                                    answer = console.next();
+
+                                                    if (answer.equals("Y") || answer.equals("y")){
+                                                        customerOrders.add(product);
+                                                        System.out.print("Order placed successfully!");
+                                                        
+                                                        
+                                                        isValid3=true;
+                                                    }
+                                                    else{
+                                                        System.out.print("Action Canceled");
+                                                        isValid3=true;
+                                                    }
+                                                }
+                                                catch(Exception e){
+                                                    System.out.println("Invalid Character. Please try again");
+                                                    console.next();
+                                                    isValid3=false;
+                                                }
+                                            }
+                                            while(!isValid3);
+                                        }
+                                        catch (Exception e){
+                                            System.out.println("Invalid Input. Please try again");
+                                            console.next();
+                                            isValid=false;
+                                        }    
+                                    }
+                                    while(!isValid);  
+                                }
+                            }
                         }
                         else{
                             System.out.println("ERROR: Invalid Credentials");

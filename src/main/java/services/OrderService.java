@@ -5,22 +5,24 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
+import models.Order;
 import models.Product;
-import models.User;
 
 /**
  *
  * @author suyao
  */
-public interface CustomerService {
+public interface OrderService {
     
-    public void showCustomerScreen();
+    public int computeTotalPrice(Product order, int quantity);
     
-    public boolean isACustomer(User customerAcc);
+    public String generateReferenceCode();
     
-    public ArrayList<User> getCustomerUsers();
+    public Date generateOrderDate();
     
-//    public void placeOrder(Product product);
-//    
-//    public ArrayList<Product> getOrders();
+    public void placeOrder(Product product);
+    
+    public ArrayList<Product> getOrders();
+    
 }

@@ -17,7 +17,7 @@ import models.User;
 public class CustomerServiceImpl implements CustomerService{
 
     private Scanner scanner = new Scanner(System.in);
-    private ArrayList<Product> customerOrders = new ArrayList<>();
+//    private ArrayList<Product> customerOrders = new ArrayList<>();
     private ArrayList<User> customerUsers = new ArrayList<>();
     
     public CustomerServiceImpl(){
@@ -45,10 +45,15 @@ public class CustomerServiceImpl implements CustomerService{
         return customerUsers;
     }
 
-    @Override
-    public void placeOrder() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+//    @Override
+//    public void placeOrder(Product product) {
+//        customerOrders.add(product);
+//    }
+    
+//    @Override
+//    public ArrayList<Product> getOrders() {
+//        return customerOrders;
+//    }
 
     @Override
     public void showCustomerScreen() {
